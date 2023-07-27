@@ -5,56 +5,60 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+
+let showSpinner:boolean = false
+
+function searchWeather(event: Event) {
+  console.log("on searchWeather():", showSpinner)
+  showSpinner = true
+}
 </script>
 
 <template>
-  
   <div class="container">
     <main class="app">
-    <header class="app__search">
-      <div class="search-imput-wrapper">
-        <input id="search-input" class="search-input" type="text" placeholder="Insert a city" autocomplete="off" />
-        <div class="search-icon-wrapper">
-          <div id="search-icon">
+      <header class="app__search">
+        <div class="search-imput-wrapper">
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Insert a city"
+            autocomplete="off"
+            @keydown="searchWeather($event)"
+          />
+          <div class="search-icon-wrapper">
+            <div id="search-icon" :style="{ 'display': !showSpinner ? 'visible' : 'none'}">
             🔍
           </div>
-          <img id="spinner" src="./spinner.gif" hidden>
+            <img src="../assets/spinner.gif" :style="{ 'display': showSpinner ? 'visible' : 'none'}" />
+          </div>
         </div>
-      </div>
-      <div class="search-history">
-        history
-      </div>
-    </header>
-    <article id="weather" class="weather">
-      <div class="icon-container">
-        <img id="weather__icon" src="" hidden>
-      </div>
-      <div>
-        <h2 id="weather__main"></h2>
-      </div>
-      <div>
-        <h2 id="weather__city"></h2>
-      </div>
-      <div>
-        <p id="weather__description">
-        </p>
-      </div>
-
-    </article>
-    <footer class="footer">
-      <div class="footer__color-bar"></div>
-      <div class="footer__home-icon" id="home-icon">
-        🏠
-      </div>
-    </footer>
-  </main>
+        <div class="search-history">history</div>
+      </header>
+      <article id="weather" class="weather">
+        <div class="icon-container">
+          <img id="weather__icon" src="" hidden />
+        </div>
+        <div>
+          <h2 id="weather__main"></h2>
+        </div>
+        <div>
+          <h2 id="weather__city">showSpinner:{{ showSpinner }}</h2>
+        </div>
+        <div>
+          <p id="weather__description"></p>
+        </div>
+      </article>
+      <footer class="footer">
+        <div class="footer__color-bar"></div>
+        <div class="footer__home-icon" id="home-icon">🏠</div>
+      </footer>
+    </main>
   </div>
-  
-  
 </template>
 
 <style scoped>
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +89,7 @@ import SupportIcon from './icons/IconSupport.vue'
   box-sizing: border-box;
   width: 100%;
   padding: 0.5em 0.5em;
-  border: 2px solid #CCC;
+  border: 2px solid #ccc;
   border-radius: 0.5em;
   outline: 0;
   font-size: 2em;
@@ -97,7 +101,7 @@ import SupportIcon from './icons/IconSupport.vue'
 .search-icon-wrapper {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) ;
+  transform: translateY(-50%);
   right: 1rem;
   transform: translateY(-50%);
   font-size: 2.5rem;
@@ -153,7 +157,7 @@ import SupportIcon from './icons/IconSupport.vue'
   padding: 0.1rem;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   font-size: 2.5rem;
   border-radius: 1rem;
   border: var(--green) solid 0.2rem;
@@ -162,7 +166,7 @@ import SupportIcon from './icons/IconSupport.vue'
 
 @media only screen and (min-width: 768px) {
   .app {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
