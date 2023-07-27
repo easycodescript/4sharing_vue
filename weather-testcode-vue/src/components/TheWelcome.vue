@@ -5,13 +5,26 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+import { ref, computed } from 'vue'
 
-let showSpinner:boolean = false
+let inputValue = ref<string>('')
+let showSpinner = ref<boolean>(false)
 
-function searchWeather(event: Event) {
-  console.log("on searchWeather():", showSpinner)
-  showSpinner = true
+function searchWeather(e: Event) {
+  showSpinner.value = false
+  inputValue.value.length > 0 ? fetchWeather(inputValue.value) : null
 }
+
+function fetchWeather(value: string) {
+  showSpinner.value = true
+  /* TODO: get data from Rest api */
+}
+
+function resetForm() {
+  inputValue.value = ""
+  showSpinner.value = false
+}
+
 </script>
 
 <template>
@@ -24,13 +37,12 @@ function searchWeather(event: Event) {
             type="text"
             placeholder="Insert a city"
             autocomplete="off"
-            @keydown="searchWeather($event)"
+            v-model="inputValue"
+            @keyup="searchWeather($event)"
           />
           <div class="search-icon-wrapper">
-            <div id="search-icon" :style="{ 'display': !showSpinner ? 'visible' : 'none'}">
-            🔍
-          </div>
-            <img src="../assets/spinner.gif" :style="{ 'display': showSpinner ? 'visible' : 'none'}" />
+            <div id="search-icon" :style="{ 'display': !showSpinner ? '' : 'none' }">🔍</div>
+            <img src="../assets/spinner.gif" class="spinner-icon" :style="{ 'display': showSpinner ? '' : 'none' }"/>
           </div>
         </div>
         <div class="search-history">history</div>
@@ -43,7 +55,7 @@ function searchWeather(event: Event) {
           <h2 id="weather__main"></h2>
         </div>
         <div>
-          <h2 id="weather__city">showSpinner:{{ showSpinner }}</h2>
+          <h2 id="weather__city"></h2>
         </div>
         <div>
           <p id="weather__description"></p>
@@ -51,7 +63,7 @@ function searchWeather(event: Event) {
       </article>
       <footer class="footer">
         <div class="footer__color-bar"></div>
-        <div class="footer__home-icon" id="home-icon">🏠</div>
+        <div class="footer__home-icon" id="home-icon" @click="resetForm">🏠</div>
       </footer>
     </main>
   </div>
@@ -98,7 +110,7 @@ function searchWeather(event: Event) {
   box-shadow: var(--pink) 0 0.2rem;
 }
 
-.search-icon-wrapper {
+.search-icon-wrapper, .spinner-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -162,6 +174,7 @@ function searchWeather(event: Event) {
   border-radius: 1rem;
   border: var(--green) solid 0.2rem;
   box-shadow: var(--pink) 0 0.2rem;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 768px) {
