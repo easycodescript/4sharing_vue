@@ -61,16 +61,17 @@ function resetForm() {
           <p id="weather__description"></p>
         </div>
       </article>
-      <footer class="footer">
-        <div class="footer__color-bar"></div>
-        <div class="footer__home-icon" id="home-icon" @click="resetForm">🏠</div>
-      </footer>
     </main>
+    <footer class="footer">
+      <div class="footer__color-bar"></div>
+      <div class="footer__home-icon" id="home-icon" @click="resetForm">🏠</div>
+    </footer>
   </div>
 </template>
 
 <style scoped>
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -146,7 +147,7 @@ function resetForm() {
 }
 
 .footer {
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -155,7 +156,7 @@ function resetForm() {
 }
 
 .footer__color-bar {
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
